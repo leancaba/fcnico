@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Feliz cumple</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="stage" id="stage">
+    <div class="track" id="track">
+
+      <!-- 01 · INTRO -->
+      <section class="slide slide--intro">
+        <div class="glow glow--center" aria-hidden="true"></div>
+        <div class="slide-inner center">
+          <h1 class="intro-title">
+            <span class="rv" style="--i:0">¡Feliz cumple <span data-nombre>Nico</span>!</span>
+            <span class="rv" style="--i:1">Esto también está</span>
+            <span class="rv" style="--i:2">incluido en tu regalo<span class="cursor" aria-hidden="true"></span></span>
+          </h1>
+        </div>
+        <button class="hint rv" style="--i:4" data-next aria-label="Siguiente">
+          <span>deslizá</span>
+          <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M32 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+      </section>
+
+      <!-- 02 · QUÉ TENGO -->
+      <section class="slide slide--tengo">
+        <div class="glow glow--top" aria-hidden="true"></div>
+        <div class="glow glow--bottom" aria-hidden="true"></div>
+        <div class="slide-inner">
+          <h2 class="big-title rv" style="--i:0">¿QUÉ TENGO?</h2>
+
+          <article class="product">
+            <p class="kicker rv" style="--i:1">UN DAC (Digital-to-Analog Converter)</p>
+            <h3 class="product-name rv" style="--i:1">MOONDROP DAWN PRO 2</h3>
+            <div class="product-img rv" style="--i:2"><img src="assets/dac.png" alt="Moondrop Dawn Pro 2" loading="eager"></div>
+            <a class="pill rv" style="--i:3" data-link="dac" href="#" target="_blank" rel="noopener">+ info</a>
+          </article>
+
+          <article class="product">
+            <p class="kicker rv" style="--i:4">UNOS AURICULARES IEM (In-Ear Monitor)</p>
+            <h3 class="product-name rv" style="--i:4">KZ CASTOR PRO BASS CON SWITCH</h3>
+            <div class="product-img rv" style="--i:5"><img src="assets/iem.png" alt="KZ Castor Pro" loading="eager"></div>
+            <a class="pill rv" style="--i:6" data-link="iem" href="#" target="_blank" rel="noopener">+ info</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- 03 · QUÉ MÁS NECESITO -->
+      <section class="slide slide--necesito">
+        <div class="glow glow--top-right" aria-hidden="true"></div>
+        <div class="glow glow--bottom-right" aria-hidden="true"></div>
+        <div class="slide-inner">
+          <h2 class="big-title rv" style="--i:0">¿QUÉ MÁS<br>NECESITO?</h2>
+          <p class="kicker kicker--lg rv" style="--i:1">UN BUEN REPRODUCTOR DE MÚSICA LOSSLESS</p>
+          <h3 class="app-name rv" style="--i:2">AIMP</h3>
+          <div class="app-icon rv" style="--i:3"><img src="assets/aimp.png" alt="Ícono de AIMP"></div>
+          <a class="btn-dl rv" style="--i:4" data-link="aimp" href="#" target="_blank" rel="noopener">DESCARGAR</a>
+          <div id="musica-cta" hidden>
+            <p class="kicker kicker--lg rv" style="--i:5">PERO SOBRE TODO MÚSICA EN BUENA CALIDAD<br>(YA SABEMOS QUE TENÉS TIDAL)</p>
+            <button class="arrow-next rv" style="--i:6" data-next aria-label="Ver discos">
+              <svg viewBox="0 0 200 40" aria-hidden="true"><path d="M0 20h192M174 3l18 17-18 17" fill="none" stroke="currentColor" stroke-width="4"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Los discos se agregan acá desde app.js -->
+    </div>
+  </main>
+
+  <nav class="hud" aria-label="Navegación">
+    <span class="counter" id="counter">01 / 03</span>
+    <div class="progress"><span id="progress-bar"></span></div>
+    <div class="arrows">
+      <button id="prev" aria-label="Anterior">&larr;</button>
+      <button id="next" aria-label="Siguiente">&rarr;</button>
+    </div>
+  </nav>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

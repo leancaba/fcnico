@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#000000">
+  <title>Panel admin</title>
+  <style>
+    :root {
+      --red: #c00810;
+      --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #000; color: #fff; font-family: var(--mono); -webkit-font-smoothing: antialiased; }
+    body { min-height: 100dvh; padding: 10vh 16px 80px; }
+    .wrap { width: min(100%, 440px); margin: 0 auto; }
+
+    h1 {
+      color: var(--red);
+      text-align: center;
+      font-weight: 500;
+      font-size: clamp(2.4rem, 11vw, 3.4rem);
+      margin-bottom: 7vh;
+      animation: in .8s var(--ease-out) both;
+    }
+    h2 { font-weight: 500; font-size: 1rem; letter-spacing: .12em; margin: 56px 0 18px; text-align: center; }
+
+    label { display: block; text-align: center; font-size: 1.15rem; margin: 18px 0 10px; }
+    label small { display: block; font-size: .7rem; margin-top: 2px; opacity: .85; }
+
+    input, textarea {
+      width: 100%;
+      background: #000;
+      color: #fff;
+      font: inherit;
+      font-size: .95rem;
+      border: 1.5px solid #fff;
+      border-radius: 16px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    textarea { border-radius: 28px; padding: 18px 20px; resize: none; line-height: 1.45; height: calc(3 * 1.45em + 36px + 3px); }
+    input:focus, textarea:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192, 8, 16, .25); }
+
+    .btn {
+      display: block;
+      width: 75%;
+      margin: 40px auto 0;
+      padding: 22px;
+      border-radius: 20px;
+      background: #fff;
+      color: #000;
+      font: inherit;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: 0;
+      cursor: pointer;
+      transition: transform .2s var(--ease-out), background .2s;
+    }
+    .btn:hover { background: #ffd9d9; }
+    .btn:active { transform: scale(.97); }
+    .btn:disabled { opacity: .5; cursor: progress; }
+
+    .preview {
+      display: none;
+      width: 120px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      margin: 12px auto 0;
+      border-radius: 8px;
+      filter: none;
+    }
+    .preview.show { display: block; animation: in .5s var(--ease-out) both; }
+
+    .msg { min-height: 1.4em; text-align: center; font-size: .8rem; margin-top: 16px; }
+    .msg.ok { color: #7dff9a; }
+    .msg.err { color: #ff6b6b; }
+
+    .notice {
+      border: 1px dashed rgba(255,255,255,.4);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: .78rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .list { list-style: none; display: grid; gap: 10px; }
+    .item {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      animation: in .4s var(--ease-out) both;
+    }
+    .item img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; background: #222; }
+    .item .t { font-size: .85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item .l { font-size: .68rem; opacity: .6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item button {
+      font: inherit; font-size: .75rem;
+      color: #fff; background: transparent;
+      border: 1px solid var(--red); border-radius: 10px;
+      padding: 8px 10px; cursor: pointer;
+      transition: background .2s;
+    }
+    .item button:hover { background: var(--red); }
+    .empty { text-align: center; font-size: .8rem; opacity: .6; }
+
+    .top-link { color: #fff; display: block; text-align: center; margin-top: 40px; font-size: .78rem; opacity: .7; }
+    [hidden] { display: none !important; }
+
+    @keyframes in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>panel ADMIN</h1>
+
+    <div class="notice" id="no-db" hidden>
+      Falta configurar Supabase en <b>config.js</b>. Sin eso el panel no puede guardar discos para todos.
+      Mirá el README (paso 2).
+    </div>
+
+    <!-- Login -->
+    <form id="login" hidden autocomplete="off">
+      <label for="clave">clave</label>
+      <input id="clave" type="password" required autocomplete="current-password">
+      <button class="btn" type="submit">entrar</button>
+      <p class="msg" id="login-msg"></p>
+    </form>
+
+    <!-- Carga -->
+    <div id="panel" hidden>
+      <form id="form" autocomplete="off">
+        <label for="titulo">titulo del disco</label>
+        <input id="titulo" required maxlength="80">
+
+        <label for="imagen">link imagen de portada y fondo</label>
+        <input id="imagen" type="url" required placeholder="https://…">
+        <img class="preview" id="preview" alt="" referrerpolicy="no-referrer">
+
+        <label for="comentario">comentario <small>3 lineas máximo</small></label>
+        <textarea id="comentario" rows="3" maxlength="180"></textarea>
+
+        <label for="link">link de descarga</label>
+        <input id="link" type="url" required placeholder="https://…">
+
+        <button class="btn" type="submit" id="guardar">guardar</button>
+        <p class="msg" id="form-msg"></p>
+      </form>
+
+      <h2>DISCOS CARGADOS</h2>
+      <ul class="list" id="list"></ul>
+      <p class="empty" id="empty" hidden>Todavía no hay discos.</p>
+    </div>
+
+    <a class="top-link" href="../">← ver la web</a>
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
